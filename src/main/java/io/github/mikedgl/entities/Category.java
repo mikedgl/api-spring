@@ -1,7 +1,9 @@
 package io.github.mikedgl.entities;
 
-public class Category {
-	
+import java.io.Serializable;
+
+public class Category implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String name;
 	
@@ -31,6 +33,7 @@ public class Category {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
