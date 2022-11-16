@@ -6,12 +6,15 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.mikedgl.dto.CategoryDTO;
 import io.github.mikedgl.entities.Category;
 import io.github.mikedgl.repositories.CategoryRepository;
+import io.github.mikedgl.services.exceptions.DatabaseException;
 import io.github.mikedgl.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -47,4 +50,16 @@ public class CategoryService {
 		category = categoryRepository.save(category);
 		return new CategoryDTO(category);
 	}
+	
+	@Transactional
+	public void delete(Long id) {
+		try {
+			categoryRepository.deleteById(id);
+		} catch(EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Resource not found.");
+		} catch (DataIntegrityViolationException e) {
+			throw new DatabaseException("Integrity Violation.");
+		}
+	}
+	
 }
