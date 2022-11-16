@@ -51,7 +51,7 @@ public class CategoryService {
 		return new CategoryDTO(category);
 	}
 	
-	@Transactional
+
 	public void delete(Long id) {
 		try {
 			categoryRepository.deleteById(id);
